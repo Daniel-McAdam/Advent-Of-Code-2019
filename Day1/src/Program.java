@@ -16,29 +16,21 @@ public class Program {
 	 
 	public static void main(String[] args) {
 
-
-		
-		Path copyPath = Paths.get("./data/input.txt");
-		
 		try {
-			InputStream is = Files.newInputStream(copyPath);
+			Path inputPath = Paths.get("./data/input.txt");
+			InputStream is = Files.newInputStream(inputPath);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			
 			String line = "";
 			int mass = 0;
-			int requiredFuel = 0;
+
 			int totalRequiredFuel = 0;
-			
-				System.out.println("moduleooo " + moduleMass(1969,0));
 			
 			while((line = reader.readLine()) != null)
 			{
-				mass = Integer.parseInt(line) ;
-				System.out.println(line);
-				requiredFuel = Math.floorDiv(mass, 3) - 2;
-				
-				System.out.println("modMass " + moduleMass(mass,0));
+				mass = Integer.parseInt(line) ;	
 				totalRequiredFuel += moduleMass(mass,0) - mass;
+				System.out.println(totalRequiredFuel);
 			}
 			
 			System.out.println(totalRequiredFuel);
@@ -55,15 +47,15 @@ public class Program {
 	{
 		if((Math.floorDiv(curMass, 3) - 2) <= 0)
 		{
-			System.out.println("testing");
-			System.out.println("final curpass " + curMass);
+			
+			//System.out.println("final curpass " + curMass);
 			return totalMass + curMass;
 			
 		}
 		else
 		{
-			System.out.println("total mass is: " + totalMass);
-			System.out.println("current mass is: " + curMass);
+			//System.out.println("total mass is: " + totalMass);
+			//System.out.println("current mass is: " + curMass);
 			return moduleMass((Math.floorDiv(curMass, 3) - 2), totalMass += curMass);
 		}
 	}
