@@ -52,8 +52,6 @@ public class Program {
      System.out.println("Input 1: " + noun);
      System.out.println("Input 2: " + verb);
      System.out.println(String.valueOf(noun) + String.valueOf(verb));
-    } else {
-
     }
    }
   }
