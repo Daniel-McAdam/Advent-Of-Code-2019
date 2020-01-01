@@ -56,7 +56,7 @@ function test(firstPath, firstInt) {
 
         }
         x -= movement;
-
+a
         break;
       case "R":
 
