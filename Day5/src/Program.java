@@ -93,9 +93,11 @@ public class Program {
     	int value = intcode[instructionPointer];
     	String fullValue = "";
     	int A,B,C,opcode; //default values are 0 unless changed
-        A = intcode[instructionPointer + 3];
-        B = intcode[instructionPointer + 2];
-        C = intcode[instructionPointer + 1];
+        A = intcode[instructionPointer + 3]; //3rd param
+        B = intcode[instructionPointer + 2]; //2nd param
+        C = intcode[instructionPointer + 1]; //FIRST param
+        
+     //   System.out.println("INTIIAL " + value + " ABC " + A + " " + B + " " + C);
         
         int Aflag,Bflag,Cflag;
         Aflag = 0;
@@ -111,26 +113,33 @@ public class Program {
     		{
     		fullValue = "0" + fullValue;
     		}
+    	//	System.out.println(fullValue);
     		
+    	//	System.out.println("valuefull2 " + fullValue.substring(2,3));
    // 		System.out.println("FullValue " + fullValue); //immediate mode set to value
-    		if (fullValue.substring(0) == "1")
+    		if (fullValue.substring(0,1).contentEquals("1"))
     	    {
+    	//		System.out.print("AREACHED");
     	    	A = instructionPointer + 3;
-    	    	System.out.println("hi");
+    	//    	System.out.println("hi");
     	    	Aflag = 1;
     	    }
-    	    if (fullValue.substring(1) == "1")
+    		else if (fullValue.substring(1,2).contentEquals("1")) //content equals important dont use ==
     	    {
+    	//		System.out.print("BREACHED");
     	    	B = instructionPointer + 2;
     	    	Bflag = 1;
     	    }
-    	    if (fullValue.substring(2) == "1")
+    		else if (fullValue.substring(2,3).contentEquals("1"))
     	    {
+    	//    	System.out.print("CREACHED");
     	    	C = instructionPointer + 1;
     	    	Cflag = 1;
     	    }
     	    
     	    opcode = Integer.parseInt(fullValue.substring(3, 5));
+    	//    System.out.println("OPCODE " + opcode);
+    	  ///  System.out.println(value + " ABC " + A + " " + B + " " + C);
 //    	    System.out.println("Opcode1 " + opcode + " " + fullValue);
 //    	    System.out.println("Opcode2 " + fullValue.substring(3, 4));
     	}
@@ -147,22 +156,22 @@ public class Program {
     	  if(Cflag == 1 && Bflag == 1)
     	  {
     		  int bb = intcode[B];
-    		  System.out.print("BB is :" + bb);
+    	//	  System.out.print("BB is :" + bb);
     		  int cc = intcode[C];
-    		  System.out.print("cc is :" + cc);
+    	//	  System.out.print("cc is :" + cc);
     		  intcode[A] = bb + cc;
     	  }
     	  else if(Cflag == 1)
     	  {
     		  int cc = intcode[C];
-    		  System.out.print("cc is :" + cc);
+    	//	  System.out.print("cc is :" + cc);
     		  intcode[A] = intcode[B] + cc;
     	  }
     	  
     	  else if(Bflag == 1)
     	  {
     		  int bb = intcode[B];
-    		  System.out.print("BB is :" + bb);
+    	//	  System.out.print("BB is :" + bb);
     		  intcode[A] = intcode[C] + bb;
     	  }
     	  else
@@ -200,9 +209,12 @@ public class Program {
        jump = 4;
        break;
       case 3:
+  //  	  System.out.println("hi1 " + intcode[intcode[instructionPointer + 1]]);
     	  intcode[intcode[instructionPointer + 1]] = inputStr;
+    	  
+  //  	  System.out.println("hi 2 " + intcode[intcode[instructionPointer + 1]]);
     	 //ToDo
-    	  System.out.println("hiii");
+    	//  System.out.println("hiii");
     	  
     	  jump = 2;
     	  break;
