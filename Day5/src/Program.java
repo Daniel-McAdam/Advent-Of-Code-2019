@@ -8,8 +8,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /*
- * Advent of Code 2019 - Day 2
- * https://adventofcode.com/2019/day/2
+ * Advent of Code 2019 - Day 5
+ * https://adventofcode.com/2019/day/5
  * @author Daniel McAdam
  * @version 1.1
  */
@@ -31,6 +31,10 @@ public class Program {
   // for (int verb = 0; verb <= 99; verb++) {
     //Intcodes are reset everytime system halts
 	   
+	 
+//	 int[] intcode = new int[] {1002,4,3,4,33};
+	 
+	 
     int[] intcode = new int[] {
     		3,225,1,225,6,6,1100,1,238,225,104,0,1101,37,34,224,101,-71,224,224,4,224,1002,223,8,223,101,6,224,224,1,224,223,223,1002,113,50,224,1001,224,
     		-2550,224,4,224,1002,223,8,223,101,2,224,224,1,223,224,223,1101,13,50,225,102,7,187,224,1001,224,-224,224,4,224,1002,223,8,223,1001,224,5,224,1,224,223,
@@ -87,7 +91,9 @@ public class Program {
     //Loop through intcodes , every 4th integer is an opcode , 0th int is opcode , followed by 2 parameters and output location
     //find pointer , if pointer is 4 then split into opcode 
     
-    int jump = 99;
+    //ip is current instruction , jump is how much to move it by
+    
+    int jump = 0;
     for (int instructionPointer = 0; instructionPointer <= intcode.length; instructionPointer += jump) {
      //Array values are treated as memory addresses, so the value isn't itself used in the calculation rather the value at the address of the initial value
     	int value = intcode[instructionPointer];
@@ -97,7 +103,8 @@ public class Program {
         B = intcode[instructionPointer + 2]; //2nd param
         C = intcode[instructionPointer + 1]; //FIRST param
         
-     //   System.out.println("INTIIAL " + value + " ABC " + A + " " + B + " " + C);
+        
+  //      System.out.println("INTIIAL " + value + " " + C + " " + B + " " + A);
         
         int Aflag,Bflag,Cflag;
         Aflag = 0;
@@ -117,29 +124,34 @@ public class Program {
     		
     	//	System.out.println("valuefull2 " + fullValue.substring(2,3));
    // 		System.out.println("FullValue " + fullValue); //immediate mode set to value
+//    		System.out.println("substrings");
+//    		System.out.println(fullValue.substring(0,1));
+//    		System.out.println(fullValue.substring(1,2));
+//    		System.out.println(fullValue.substring(2,3));
+//    		System.out.println("==========");
     		if (fullValue.substring(0,1).contentEquals("1"))
     	    {
-    	//		System.out.print("AREACHED");
+//    			System.out.print("AREACHED");
     	    	A = instructionPointer + 3;
     	//    	System.out.println("hi");
     	    	Aflag = 1;
     	    }
-    		else if (fullValue.substring(1,2).contentEquals("1")) //content equals important dont use ==
+    		 if (fullValue.substring(1,2).contentEquals("1")) //content equals important dont use ==
     	    {
-    	//		System.out.print("BREACHED");
+//    			System.out.print("BREACHED");
     	    	B = instructionPointer + 2;
     	    	Bflag = 1;
     	    }
-    		else if (fullValue.substring(2,3).contentEquals("1"))
+    		if (fullValue.substring(2,3).contentEquals("1"))
     	    {
-    	//    	System.out.print("CREACHED");
+ //   	    	System.out.print("CREACHED");
     	    	C = instructionPointer + 1;
     	    	Cflag = 1;
     	    }
     	    
     	    opcode = Integer.parseInt(fullValue.substring(3, 5));
-    	//    System.out.println("OPCODE " + opcode);
-    	  ///  System.out.println(value + " ABC " + A + " " + B + " " + C);
+//    	    System.out.println("OPCODE " + opcode);
+//   	    System.out.println(value + " " + A + " " + B + " " + C);
 //    	    System.out.println("Opcode1 " + opcode + " " + fullValue);
 //    	    System.out.println("Opcode2 " + fullValue.substring(3, 4));
     	}
@@ -149,20 +161,25 @@ public class Program {
     	
     	
      switch (opcode) {
+     
+     
       //Add
       case 1:
     	 // System.out.println("bruh");
     	  
     	  if(Cflag == 1 && Bflag == 1)
     	  {
+    //		  System.out.println("REACHED");
     		  int bb = intcode[B];
     	//	  System.out.print("BB is :" + bb);
     		  int cc = intcode[C];
     	//	  System.out.print("cc is :" + cc);
     		  intcode[A] = bb + cc;
+    		 // System.out.println("REACHED");
     	  }
     	  else if(Cflag == 1)
     	  {
+    		  
     		  int cc = intcode[C];
     	//	  System.out.print("cc is :" + cc);
     		  intcode[A] = intcode[B] + cc;
@@ -170,14 +187,18 @@ public class Program {
     	  
     	  else if(Bflag == 1)
     	  {
+    		  
     		  int bb = intcode[B];
     	//	  System.out.print("BB is :" + bb);
     		  intcode[A] = intcode[C] + bb;
     	  }
     	  else
     	  {
+    		  
     		  intcode[A] = intcode[B] + intcode[C];
     	  }
+    	  
+    	 // System.out.println(" A FLAG " + Aflag + " BFLAG " + Bflag + " CFLAG " + Cflag);
        
        //
        jump = 4;
@@ -209,8 +230,10 @@ public class Program {
        jump = 4;
        break;
       case 3:
-  //  	  System.out.println("hi1 " + intcode[intcode[instructionPointer + 1]]);
+   // 	  System.out.println("hi1 " + intcode[intcode[instructionPointer + 1]]);
     	  intcode[intcode[instructionPointer + 1]] = inputStr;
+   // 	  System.out.println("hi1 " + intcode[intcode[instructionPointer + 1]]);
+   // 	  System.out.println("hi2 " + intcode[225]);
     	  
   //  	  System.out.println("hi 2 " + intcode[intcode[instructionPointer + 1]]);
     	 //ToDo
@@ -220,9 +243,16 @@ public class Program {
     	  break;
     	  
       case 4:
+  //  	  System.out.println("INTIIAL " + value + " " + C + " " + B + " " + A);
     	 System.out.println(intcode[intcode[instructionPointer + 1]]);
     	jump = 2;		 
     	 break;
+    	 
+//      case 5: //jump if true
+//    	  if((instructionPointer + 1) != 0)
+//    	  {
+//    		  jump = 
+//    	  }
     	  
     	  
        //Halt
