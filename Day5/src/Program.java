@@ -31,13 +31,14 @@ public class Program {
   // for (int verb = 0; verb <= 99; verb++) {
     //Intcodes are reset everytime system halts
 	   
-	    int inputStr = 45;
-//	 int[] intcode = new int[] {3,3,1108,-1,8,3,4,3,99};
+	    int inputStr = 7;
+	 int[] intcode = new int[] {3,9,8,9,10,9,4,9,99,-1,8};
+//	 int[] intcode = new int[] {3,9,8,9,10,9,4,9,99,-1,8};						
 //	 int[] intcode = new int[] {3,3,1105,-1,9,1101,0,0,12,4,12,99,1};
 	 
-	 int[] intcode = new int[] {3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
-			 1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
-			 999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99};
+//	 int[] intcode = new int[] {3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
+//			 1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
+//			 999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99};
 	 
 //    int[] intcode = new int[] {
 //    		3,225,1,225,6,6,1100,1,238,225,104,0,1101,37,34,224,101,-71,224,224,4,224,1002,223,8,223,101,6,224,224,1,224,223,223,1002,113,50,224,1001,224,
@@ -130,14 +131,16 @@ public class Program {
     		B = 0;
     		C = 0;
     	}
+    	
         
-  //      System.out.println("INTIIAL " + value + " " + C + " " + B + " " + A);
+        System.out.println("INTIIAL Values " + value + " " + C + " " + B + " " + A);
         
         int Aflag,Bflag,Cflag;
         Aflag = 0;
         Bflag = 0;
         Cflag = 0;
         opcode = value;
+        
     
     	if(value != 99 && String.valueOf(value).length() > 1 ) //if larger opcode
     	{
@@ -166,7 +169,10 @@ public class Program {
     		 if (fullValue.substring(1,2).contentEquals("1")) //content equals important dont use ==
     	    {
 //    			System.out.print("BREACHED");
+    			 System.out.println("hello");
+    			 System.out.println("b1 " + B );
     	    	B = instructionPointer + 2;
+    	    	System.out.println("b2 " + B + " " + instructionPointer);
     	    	Bflag = 1;
     	    }
     		if (fullValue.substring(2,3).contentEquals("1"))
@@ -185,10 +191,10 @@ public class Program {
     	
     
    // 	System.out.println(opcode + " OpCode");
-    	
+    	  System.out.println(intcode[20]);
     	
      switch (opcode) {
-     
+   
      
       //Add
       case 1:
@@ -307,7 +313,7 @@ public class Program {
     		  
     		  if(cc != 0)
     		  {
-    			  instructionPointer = intcode[intcode[instructionPointer + 2]];
+    			  instructionPointer = intcode[intcode[B]];
         		  System.out.println("instpoint1 " + instructionPointer);
         		  jump = 0;
     		  }
@@ -336,7 +342,7 @@ public class Program {
     		  System.out.println("no jump22");
     	  jump = 3;
     	  }
-    	   System.out.println("no jump");
+    	
     	  break;
     	  
       case 6: //jump if false
@@ -345,18 +351,8 @@ public class Program {
     	  //if first param is 0 then insturction pointer = 2nd value else do nothing;
     	  
 
-    	  if(Cflag == 1)
-    	  {
-    		  int cc = intcode[C];
-    		  
-    		  if(cc == 0)
-    		  {
-    			  instructionPointer = intcode[intcode[instructionPointer + 2]];
-        		  System.out.println("instpoint2 " + instructionPointer);
-        		  jump = 0;
-    		  }
-    	  }
-    	  else if(Cflag == 1 && Bflag ==1)
+    
+    	  if(Cflag == 1 && Bflag ==1)
     	  {
     		  int cc = intcode[C];
     		  int bb = intcode[B];
@@ -372,13 +368,24 @@ public class Program {
     	  else if(Bflag == 1)
     	  {
     		  int bb = intcode[B];
-    		  if(intcode[intcode[instructionPointer + 1]] == 0)
+    		  if(intcode[intcode[C]] == 0)
     		  {
     		 
     		  
     		  instructionPointer = bb;
     		  System.out.println("instpoint2 " + instructionPointer);
     		  jump = 0;
+    		  }
+    	  }
+    	  else if(Cflag == 1)
+    	  {
+    		  int cc = intcode[C];
+    		  
+    		  if(cc == 0)
+    		  {
+    			  instructionPointer = intcode[intcode[instructionPointer + 2]];
+        		  System.out.println("instpoint2 " + instructionPointer);
+        		  jump = 0;
     		  }
     	  }
     	  else if(intcode[intcode[instructionPointer + 1]] == 0)
@@ -420,7 +427,7 @@ public class Program {
     		  int cc = intcode[C];
     	
     		  
-    		  if(cc < intcode[B])
+    		  if(cc < intcode[intcode[B]])
     		  {
     			  intcode[A] = 1;
     		  }
@@ -433,7 +440,7 @@ public class Program {
     	  else if(Bflag == 1)
     	  {
     		  int bb = intcode[B];
-    		  if(intcode[C] < bb)
+    		  if(intcode[intcode[C]] < bb)
     		  {
     			  intcode[A] = 1;
     		  }
@@ -457,12 +464,15 @@ public class Program {
     	  
       case 8:
     	  System.out.println("Case 8");
-    	  System.out.println("INTIIAL " + value + " " + C + " " + B + " " + A);
+    	  System.out.println("88INTIIAL " + value + " " + C + " " + B + " " + A);
 
-    	  //if param1 equal param2 param 3 = 1 else 0;
     	  
+    	  System.out.println(intcode[A]);
+    	  //if param1 equal param2 param 3 = 1 else 0;
+    	  try {
     	  if(Cflag == 1 && Bflag == 1)
     	  {
+    		  System.out.println("Case A");
     		  int bb = intcode[B];
     		  int cc = intcode[C];
 
@@ -478,10 +488,11 @@ public class Program {
     	  }
     	  else if(Cflag == 1)
     	  {
+    		  System.out.println("Case B");
     		  int cc = intcode[C];
     	
     		  
-    		  if(cc == intcode[B])
+    		  if(cc == intcode[intcode[B]])
     		  {
     			  intcode[intcode[instructionPointer + 3]] = 1;
     		  }
@@ -493,8 +504,13 @@ public class Program {
     	  
     	  else if(Bflag == 1)
     	  {
+    		  System.out.println("Case C");
     		  int bb = intcode[B];
-    		  if(bb == intcode[C])
+    		  System.out.println(bb);
+    		  
+        	  System.out.println(intcode[C]);
+        	  System.out.println(intcode[B]);
+    		  if(bb == intcode[intcode[C]])
     		  {
     			  intcode[intcode[instructionPointer + 3]] = 1;
     		  }
@@ -505,10 +521,17 @@ public class Program {
     	  }
     	  else if(intcode[intcode[C]] == intcode[intcode[B]])
     	  {
+    		  System.out.println("Case D");
     		 intcode[intcode[instructionPointer + 3]] = 1;
     	  }
     	  else
     	  {
+    		  System.out.println("Case E");
+    		  intcode[intcode[instructionPointer + 3]] = 0;
+    	  }
+    	  }
+    	  catch(Exception e){
+    		  e.printStackTrace();
     		  intcode[intcode[instructionPointer + 3]] = 0;
     	  }
     	  
