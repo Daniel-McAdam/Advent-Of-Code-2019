@@ -1,0 +1,9 @@
+- Stage one , create array of all inputs 
+
+- for each input determine size (e.g. 3,4 take 2)
+
+- Method for each input, parameters are all immediate , convert to correct mode afterwards
+
+- Method to convert modes
+
+- Wrap in run method that takes an input
