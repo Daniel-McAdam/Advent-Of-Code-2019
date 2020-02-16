@@ -9,3 +9,4 @@ https://adventofcode.com/2019/about
 | Day 3         | JavaScript        |
 | Day 4         | JavaScript        |
 | Day 5         | Java              |
+| Day 6         |                   |
